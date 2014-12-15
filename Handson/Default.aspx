@@ -14,12 +14,7 @@
     <link rel="stylesheet" media="all" href="Scripts/handsontable.full.css" />
 
     <style type="text/css" media="all">
-        /*
-        table.htCore > tbody th{
-  text-align: left;
-  min-width: 1230px;
-}
-            */
+
         .handsontable .currentRow {
             background-color: #E7E8EF;
         }
