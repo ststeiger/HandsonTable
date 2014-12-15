@@ -33,6 +33,17 @@
 
     <script type="text/javascript">
         
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                       .toString(16)
+                       .substring(1);
+        }
+        function guid() {
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                   s4() + '-' + s4() + s4() + s4();
+        };
+
+
         $(document).ready(function ()
         {
             console.log("ready");
@@ -116,15 +127,31 @@
                 var ele = document.getElementById("dbtypes");
                 
                 var ele2 = ele.cloneNode(true);
-                ele2.id = "boo";
+                ele2.id = guid();
                 ele2.style.display = "block";
                 // console.log("ele2");
 
+                
+                
+
+                if(td.cellIndex > -1)
+                {
+                    console.log("tdi: " + td.cellIndex);
+                    console.log("tri: " + td.parentElement.rowIndex);
+                    //console.log("index: " + td.cellIndex);
+                    //console.log("index: " + td.cellIndex);
+                    // var tr = td.parentElement;
+                    // console.log("tr: " + tr.index);
+                }
+                
 
                 // var escaped = Handsontable.helper.stringify(value);
                 //ele2.value = "uuid"; 
                 ele2.value = value; // option value
                 
+                // instance.setDataAtCell(0, 0, 'new value');
+
+
                 var last;
                 while (last = td.lastChild)
                     td.removeChild(last);
@@ -158,7 +185,7 @@
             // that.getCellMeta(r, c).readOnly = atLeastOneReadOnly ? false : true;
 
             var example2 = document.getElementById('example2');
-            var hot2 = new Handsontable(example2,{
+            window.hot2 = new Handsontable(example2,{
               data: getCarData(),
               startRows: 7,
               startCols: 4,
@@ -178,8 +205,8 @@
                 },
                 {
                      data: "type"
-                    //,type: 'numeric'
-                    , renderer: chosenRenderer
+                    , type: 'text' // http://handsontable.com/demo/renderers.html
+                    ,renderer: chosenRenderer
                 },
                  {
                      data: "length",
@@ -215,6 +242,8 @@
             });
 
             console.log("/ready");
+            // handsontable('setDataAtCell', row, col, value)
+            
         });
         
         
@@ -292,6 +321,19 @@
             // console.log(e.target);
         }
 
+
+        function lalala(obj)
+        {
+            console.log(obj);
+            var td = obj.parentElement;
+            var tr = td.parentElement;
+
+            var value = obj.options[obj.selectedIndex].value;
+            
+            //window.hot2.setDataAtCell(tr.rowIndex -1, td.cellIndex -1, 'new value');
+            window.hot2.setDataAtCell(tr.rowIndex - 1, td.cellIndex, value);
+        }
+
     </script>
 
 
@@ -306,7 +348,9 @@
         <!--
         <select class="chosen-select" data-placeholder="Choose a Country...">
             -->
-        <select id="dbtypes" data-placeholder="Choose a Type..." class="chosen-select" style="width: 200px; display: none;" >
+         
+
+        <select id="dbtypes" data-placeholder="Choose a Type..." class="chosen-select" style="width: 200px; display: none;" onchange="lalala(this);" >
             <option value=""></option>
             
             <optgroup label="uuid">
@@ -317,8 +361,20 @@
                 <!--
                 <option selected="selected">bigint</option>
                 -->
-		        <option value="2">int</option>
-		        <option value="3">smallint</option>
+		        
+		        <option value="2">tinyint</option>
+                <option value="3">smallint</option>
+                <option value="4">int</option>
+                <option value="5">bigint</option>
+                <option value="6">float</option>
+                <option value="7">double</option>
+                <option value="8">money</option>
+                <option value="9">decimal</option>
+                <option value="10">numeric</option>
+                
+                <option value="binary">binary</option>
+                <option value="varbinary">varbinary</option>
+                <option value="sql_variant">sql_variant</option>
             </optgroup>
 	    </select>
         
@@ -329,7 +385,35 @@
             <div id="example2" class="dataTable"></div>    
         </div>
         <div style="clear: both; height: 30px;"></div>
-        <input type="button" value="hello" onclick="" />
+
+        <script type="text/javascript" >
+
+            function lol()
+            {
+
+                //3. OR, get the instance using $.data and then call method on the instance (obsolete)
+                // var ht = $('#example2').data('handsontable');
+                //var ht = hot2.data('handsontable');
+                //var hot3 = $('#example2').data('handsontable');
+                //var hot3 = $('#example2').handsontable('getInstance');
+                var instance = $('#example2').handsontable('getInstance');
+                // instance.setDataAtCell(0, 0, 'new value');
+                //local hook (has same effect as a callback)
+                //$('#example2').handsontable('getInstance').
+
+
+                console.log(instance);
+                //hot3.setDataAtCell(0, 0, 'new value');
+                //console.log(ht);
+                //ht.setDataAtCell(0, 0, 'new value');
+                //$('#example2').handsontable('setDataAtCell', 03, 4, '666');
+            }
+
+
+        </script>
+
+
+        <input type="button" value="hello" onclick="lol();" />
 
     </form>
 </body>
