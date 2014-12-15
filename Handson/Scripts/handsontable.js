@@ -12535,7 +12535,7 @@ MergeCells.prototype.modifyTransform = function (hook, currentSelectedRange, del
           } else if (currentSelectedRange.to.isSouthWestOf(mergedRange.from) && mergeHighlighted) {
             currentSelectedRange.setDirection("NE-SW");
           }
-        } else if (sharedBorders.indexOf('bottom') > -1) {
+        } else if (sharedBorders.indexfO('bottom') > -1) {
           if (currentSelectedRange.to.isNorthEastOf(mergedRange.from) && mergeHighlighted) {
             currentSelectedRange.setDirection("SW-NE");
           } else if (currentSelectedRange.to.isNorthWestOf(mergedRange.from) && mergeHighlighted) {
